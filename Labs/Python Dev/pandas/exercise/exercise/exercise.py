@@ -25,7 +25,7 @@ outliers = df[(df['Age'] < lower_bound) | (df['Age'] > upper_bound)]
 print('Outliers Printing')
 print(outliers) #data has outliers
 
-#calculate median
+#calculate median and mean
 median_age = df['Age'].median()
 mean_age = df['Age'].mean()
 print(median_age)
