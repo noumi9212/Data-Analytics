@@ -27,11 +27,18 @@ print(outliers) #data has outliers
 
 #calculate median
 median_age = df['Age'].median()
+mean_age = df['Age'].mean()
+print(median_age)
+print(mean_age)
 
 #replace outliers using median
 df.loc[(df['Age'] < lower_bound) | (df['Age'] > upper_bound), 'Age'] = median_age
 #fill nan for age using median
 df['Age'] = df['Age'].fillna(df['Age'].median())
+
+#conver floats to int
+df['Age'] = pd.to_numeric(df['Age']).astype(int)
+
 
 #fill nan for Cabin using mode
 df['Cabin'] = df['Cabin'].fillna(df['Cabin'].mode()[0])
