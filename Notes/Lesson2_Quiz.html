@@ -1,0 +1,260 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analytics Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answers label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .timer {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        const totalQuestions = 25;
+        const timePerQuestion = 60;
+        let timer;
+
+        const questions = [
+            {
+                question: "1 Which of the following steps are involved in the ETL process?",
+                options: ["Extract, Translate, Load", "Extract, Transform, Load", "Extract, Transfer, Load", "Extract, Transition, Load"],
+                answer: 1
+            },
+            {
+                question: " 2 In data validation, what is the purpose of a data type validation check?",
+                options: ["To ensure each field has the correct data type", "To ensure there are no null values", "To verify that records are unique", "To confirm that data ranges are correct"],
+                answer: 0
+            },
+            {
+                question: " 3 What is the main objective of data aggregation in data analytics?",
+                options: ["To clean and organize data", "To summarize data for analysis", "To store data in a database", "To load data into a target system"],
+                answer: 1
+            },
+            {
+                question: " 4 Which SQL function is used to combine two or more strings together?",
+                options: ["CONCAT()", "SUBSTRING()", "CAST()", "ORDER BY"],
+                answer: 0
+            },
+            {
+                question: " 5 Which of the following is a method used for handling missing values in a dataset?",
+                options: ["Imputation using median values", "Removal of missing values without substitution", "Aggregating data", "Sorting data"],
+                answer: 0
+            },
+            {
+                question: " 6 In SQL, which clause is used to filter data based on specific conditions?",
+                options: ["SELECT", "ORDER BY", "WHERE", "JOIN"],
+                answer: 2
+            },
+            {
+                question: " 7 What type of data load involves replacing old data entirely with new data in the target system?",
+                options: ["Incremental data load", "Full data load", "Full refresh data load", "Differential data load"],
+                answer: 2
+            },
+            {
+                question: " 8 What is the main benefit of using a PivotTable in Excel?",
+                options: ["To perform data validation", "To clean and transform data", "To calculate and summarize data for analysis", "To load data into a target system"],
+                answer: 2
+            },
+            {
+                question: " 9 Which of the following best describes the purpose of data cleaning?",
+                options: ["To categorize data into different tables", "To identify and fix incorrect, incomplete, duplicate, and erroneous data", "To load data into a data warehouse", "To visualize data in graphical format"],
+                answer: 1
+            },
+            {
+                question: " 10 Which process in data analytics involves changing the layout of data from rows to columns or columns to rows?",
+                options: ["Aggregation", "Transposition", "Sorting", "Slicing"],
+                answer: 1
+            },
+            {
+                question: " 11 Which of the following best describes the purpose of data validation?",
+                options: ["To ensure the data is sorted in a particular order", "To verify that the data meets accuracy, completeness, consistency, and uniformity standards", "To clean the data by removing duplicate records", "To visualize the data using graphs and charts"],
+                answer: 1
+            },
+            {
+                question: " 12 Which SQL function is used to truncate a number to a specified number of decimal places, and how does it differ from the rounding function?",
+                options: ["TRUNCATE; it rounds the number up", "TRUNCATE; it simply removes the decimal places without rounding", "ROUND; it truncates the number without rounding", "ROUND; it always rounds the number down"],
+                answer: 1
+            },
+            {
+                question: " 13 What is the primary purpose of the 'ORDER BY' clause in SQL?",
+                options: ["To group data based on a specific column", "To filter data based on conditions", "To sort the results of a query in ascending or descending order", "To delete duplicate records from a table"],
+                answer: 2
+            },
+            {
+                question: " 14 Which of the following is NOT a common practice in data cleaning?",
+                options: ["Removing irrelevant data", "Sorting data in ascending order", "Handling inconsistent capitalization", "Dealing with outliers"],
+                answer: 1
+            },
+            {
+                question: " 15 In the context of data validation, what is a \"range validation\"?",
+                options: ["Verifying that each field has the correct data type", "Ensuring that the required records are not missing", "Checking that the values are within a specified range", "Ensuring that there are no null values in critical fields"],
+                answer: 2
+            },
+            {
+                question: " 16 What is the primary purpose of a PivotTable in Excel?",
+                options: ["To create charts and graphs", "To summarize and analyze large datasets by organizing and calculating data", "To remove duplicates from a dataset", "To validate data for accuracy and consistency"],
+                answer: 1
+            },
+            {
+                question: " 17 Which data cleaning process involves ensuring that the same department name does not have different representations such as \"HR\", \"H.R\", and \"Hr\"?",
+                options: ["Data type conversion", "Handling inconsistent capitalization", "Standardizing data", "Removing duplicate records"],
+                answer: 2
+            },
+            {
+                question: " 18 In SQL, what is the difference between using 'GROUP BY' and 'HAVING'?",
+                options: ["'GROUP BY' groups rows that have the same values, while 'HAVING' filters the groups based on a condition", "'GROUP BY' filters the data, while 'HAVING' groups the rows", "'GROUP BY' is used to sort data, while 'HAVING' is used to aggregate data", "'GROUP BY' and 'HAVING' serve the same purpose and can be used interchangeably"],
+                answer: 0
+            },
+            {
+                question: " 19 Which of the following statements about data organization is FALSE?",
+                options: ["Data organization helps in categorizing and classifying data", "It is easier to analyze data if it is in sorted order", "Data organization makes it difficult to access and process data", "Data can be organized through sorting, filtering, appending, and slicing"],
+                answer: 2
+            },
+            {
+                question: " 20 What is the function of the 'CLEAN' function in Excel?",
+                options: ["To remove non-printable characters from text", "To truncate numbers to a specified number of decimal places", "To round numbers to the nearest integer", "To convert data types in a dataset"],
+                answer: 0
+            },
+            {
+                question: " 21 Which SQL clause would you use to ensure that duplicate records are removed from the results of a query?",
+                options: ["SELECT DISTINCT", "ORDER BY", "GROUP BY", "WHERE"],
+                answer: 0
+            },
+            {
+                question: " 22 What is the purpose of the 'ASC' keyword in SQL, and is it necessary?",
+                options: ["To perform ascending order sorting; it is necessary", "To perform descending order sorting; it is necessary", "To perform ascending order sorting; it is optional as it is the default", "To perform descending order sorting; it is optional"],
+                answer: 2
+            },
+            {
+                question: "23 Which of the following is an example of data type validation during the data validation process?",
+                options: ["Ensuring that the 'employee_id' field is unique", "Verifying that the 'age' field contains only integer values", "Checking that no records are missing", "Ensuring that the same department name does not have different representations"],
+                answer: 1
+            },
+            {
+                question: " 24 What does the 'TRUNC' function do in SQL?",
+                options: ["Rounds a number to a specified number of decimal places", "Converts a number to a different data type", "Truncates a number to a specified number of decimal places without rounding", "Removes duplicate records from a dataset"],
+                answer: 2
+            },
+            {
+                question: " 25 Which step is not typically involved in the data cleaning process?",
+                options: ["Removing irrelevant data", "Creating PivotTables", "Handling missing or null values", "Removing duplicate data"],
+                answer: 1
+            }
+        ];
+
+        function startQuiz() {
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            showQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function showQuestion(index) {
+            if (index < totalQuestions) {
+                const question = questions[index];
+                document.getElementById('question').innerText = question.question;
+                const answers = document.getElementById('answers');
+                answers.innerHTML = '';
+                question.options.forEach((option, i
+
+) => {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'answer';
+                    input.value = i;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(option));
+                    answers.appendChild(label);
+                });
+            } else {
+                endQuiz();
+            }
+        }
+
+        function startTimer() {
+            let timeLeft = timePerQuestion;
+            timer = setInterval(() => {
+                document.getElementById('timer').innerText = `Time left: ${timeLeft}s`;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (selectedOption && parseInt(selectedOption.value) === questions[currentQuestion].answer) {
+                score++;
+            }
+            currentQuestion++;
+            clearInterval(timer);
+            showQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function endQuiz() {
+            clearInterval(timer);
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('score').innerText = `You scored ${score} out of ${totalQuestions}`;
+            showCorrectAnswers();
+        }
+
+        function showCorrectAnswers() {
+            const correctAnswers = document.getElementById('correct-answers');
+            correctAnswers.innerHTML = '';
+            questions.forEach((question, index) => {
+                const p = document.createElement('p');
+                p.innerText = `${index + 1}. ${question.question} Answer: ${question.options[question.answer]}`;
+                correctAnswers.appendChild(p);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Data Analytics Quiz</h1>
+        <h3>Instructor: Dr. Tassawar Ali</h3>
+    </div>
+    <div id="start">
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+    <div id="quiz" style="display:none;">
+        <div class="question">
+            <div id="question"></div>
+            <div class="answers" id="answers"></div>
+        </div>
+        <div class="timer" id="timer"></div>
+        <button onclick="nextQuestion()">Next Question</button>
+    </div>
+    <div id="results" style="display:none;">
+        <h2>Quiz Completed</h2>
+        <p id="score"></p>
+        <div id="correct-answers"></div>
+    </div>
+</body>
+</html>
+```
